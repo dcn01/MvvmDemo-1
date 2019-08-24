@@ -17,9 +17,11 @@ class PositionalDataSourceImpl(
     callback: LoadRangeCallback<WpBean>
   ) {
     viewModel.launch {
+      viewModel.loadMore.value = true
       val result = wpRepository.loadVerticalWp(params.startPosition, params.loadSize)
       Log.i("logger", "loadRange===>${params.startPosition}/${params.loadSize}")
       callback.onResult(result.res.vertical)
+      viewModel.loadMore.value = false
     }
   }
 
@@ -28,9 +30,11 @@ class PositionalDataSourceImpl(
     callback: LoadInitialCallback<WpBean>
   ) {
     viewModel.launch {
+      viewModel.refresh.value = true
       val result = wpRepository.loadVerticalWp(0, params.pageSize)
       Log.i("logger", "loadInitial===>0/${params.pageSize}")
       callback.onResult(result.res.vertical, 0)
+      viewModel.refresh.value = false
     }
   }
 }
