@@ -18,7 +18,7 @@ class MainFragment : BaseVMFragment<MainViewModel>() {
     WpAdapter()
   }
 
-  override fun providerVMClass(): Class<MainViewModel>? = MainViewModel::class.java
+  override fun providerVMClass(): Class<MainViewModel> = MainViewModel::class.java
 
   override fun getLayoutResId(): Int {
     return R.layout.fragment_main

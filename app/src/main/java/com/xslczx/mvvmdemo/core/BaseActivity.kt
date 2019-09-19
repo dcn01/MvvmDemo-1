@@ -8,11 +8,9 @@ abstract class BaseActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(getLayoutResId())
-    initView()
-    initData()
+    initData(savedInstanceState)
   }
 
   abstract fun getLayoutResId(): Int
-  abstract fun initView()
-  abstract fun initData()
+  abstract fun initData(savedInstanceState: Bundle?)
 }

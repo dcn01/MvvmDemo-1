@@ -1,15 +1,14 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-  compileSdkVersion 28
+  compileSdkVersion 29
   defaultConfig {
     applicationId "com.xslczx.mvvmdemo"
     minSdkVersion 14
-    targetSdkVersion 28
+    targetSdkVersion 29
     versionCode 1
     versionName "1.0"
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -35,17 +34,17 @@ dependencies {
   androidTestImplementation 'androidx.test:runner:1.2.0'
   androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-  implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
-  implementation "androidx.core:core-ktx:1.2.0-alpha03"
-  implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-alpha03'
-  implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-alpha03"
-  implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha03'
+  implementation 'androidx.appcompat:appcompat:1.1.0'
+  implementation "androidx.core:core-ktx:1.2.0-alpha04"
+  implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-alpha05'
+  implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-alpha05"
+  implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha05'
 
   implementation "android.arch.navigation:navigation-fragment:1.0.0"
   implementation "android.arch.navigation:navigation-ui:1.0.0"
 
-  implementation 'androidx.recyclerview:recyclerview:1.1.0-beta03'
-  implementation 'com.google.android.material:material:1.1.0-alpha09'
+  implementation 'androidx.recyclerview:recyclerview:1.1.0-beta04'
+  implementation 'com.google.android.material:material:1.1.0-alpha10'
   implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
   implementation 'android.arch.paging:runtime:1.0.1'
 
@@ -55,5 +54,5 @@ dependencies {
   implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
 
   implementation 'com.github.bumptech.glide:glide:4.9.0'
-  annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+  kapt 'com.github.bumptech.glide:compiler:4.9.0'
 }

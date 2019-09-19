@@ -15,7 +15,7 @@ class MainViewModel : BaseViewModel() {
   private val config = PagedList.Config.Builder()
       .setPageSize(10)                         //配置分页加载的数量
       .setEnablePlaceholders(false)            //配置是否启动PlaceHolders
-      .setInitialLoadSizeHint(0)              //初始化加载的数量
+      .setInitialLoadSizeHint(10)              //初始化加载的数量
       .build()
 
   val refresh: MutableLiveData<Boolean> = MutableLiveData()

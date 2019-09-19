@@ -9,7 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 
 abstract class BaseVMFragment<VM : BaseViewModel> : androidx.fragment.app.Fragment() {
 
-  protected lateinit var mViewModel: VM
+  protected val mViewModel: VM by lazy {
+    ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+        .create(providerVMClass()).apply {
+          lifecycle.addObserver(mViewModel)
+        }
+  }
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -23,7 +28,6 @@ abstract class BaseVMFragment<VM : BaseViewModel> : androidx.fragment.app.Fragme
     view: View,
     savedInstanceState: Bundle?
   ) {
-    initVM()
     initView()
     initData()
     startObserve()
@@ -42,16 +46,7 @@ abstract class BaseVMFragment<VM : BaseViewModel> : androidx.fragment.app.Fragme
 
   abstract fun initData()
 
-  private fun initVM() {
-    providerVMClass()?.let {
-      mViewModel =
-        ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-            .create(it)
-      lifecycle.addObserver(mViewModel)
-    }
-  }
-
-  open fun providerVMClass(): Class<VM>? = null
+  abstract fun providerVMClass(): Class<VM>
 
   override fun onDestroy() {
     lifecycle.removeObserver(mViewModel)
