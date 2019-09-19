@@ -1,37 +1,31 @@
 package com.xslczx.mvvmdemo.core
 
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 
-abstract class BaseVMFragment<VM : BaseViewModel> : androidx.fragment.app.Fragment() {
+abstract class BaseVMFragment<VM : BaseViewModel> : BaseFragment() {
 
-  protected val mViewModel: VM by lazy {
-    ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-        .create(providerVMClass()).apply {
-          lifecycle.addObserver(mViewModel)
-        }
-  }
+  protected lateinit var mViewModel: VM
 
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View? {
-    return inflater.inflate(getLayoutResId(), container, false)
+  override fun onAttach(context: Context) {
+    super.onAttach(context)
+    mViewModel =
+      ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+          .create(providerVMClass())
+          .also {
+            it.let(lifecycle::addObserver)
+          }
   }
 
   override fun onViewCreated(
     view: View,
     savedInstanceState: Bundle?
   ) {
-    initView()
-    initData()
-    startObserve()
     super.onViewCreated(view, savedInstanceState)
+    startObserve()
   }
 
   open fun startObserve() {
@@ -39,12 +33,6 @@ abstract class BaseVMFragment<VM : BaseViewModel> : androidx.fragment.app.Fragme
   }
 
   open fun onError(e: Throwable) {}
-
-  abstract fun getLayoutResId(): Int
-
-  abstract fun initView()
-
-  abstract fun initData()
 
   abstract fun providerVMClass(): Class<VM>
 

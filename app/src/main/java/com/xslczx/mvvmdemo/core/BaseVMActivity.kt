@@ -7,16 +7,15 @@ import androidx.lifecycle.ViewModelProvider
 
 abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity(), LifecycleObserver {
 
-  protected val mViewModel: VM  by lazy {
-    ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-        .create(providerVMClass())
-        .apply {
-          mViewModel.let(lifecycle::addObserver)
-        }
-  }
+  protected lateinit var mViewModel: VM
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    mViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+        .create(providerVMClass())
+        .also {
+          it.let(lifecycle::addObserver)
+        }
     startObserve()
   }
 
