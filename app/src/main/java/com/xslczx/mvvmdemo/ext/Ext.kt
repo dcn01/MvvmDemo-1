@@ -1,7 +1,8 @@
-package com.xslczx.mvvmdemo.model.base
+package com.xslczx.mvvmdemo.ext
 
 import androidx.recyclerview.widget.RecyclerView.ItemAnimator
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.xslczx.mvvmdemo.model.base.BaseResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 

@@ -11,7 +11,7 @@ abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity(), LifecycleObs
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    mViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+    mViewModel = ViewModelProvider.NewInstanceFactory()
         .create(providerVMClass())
         .also {
           it.let(lifecycle::addObserver)

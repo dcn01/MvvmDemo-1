@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.Lifecycle
 import com.xslczx.mvvmdemo.R
 import com.xslczx.mvvmdemo.core.BaseActivity
+import com.xslczx.mvvmdemo.ext.popBackStackImmediate
 import kotlinx.android.synthetic.main.title_layout.mToolbar
 
 class MainActivity : BaseActivity() {
@@ -26,5 +27,14 @@ class MainActivity : BaseActivity() {
         .runOnCommit { Log.v("logger", "runOnCommit") }
         .setMaxLifecycle(mf, Lifecycle.State.RESUMED)
         .commitAllowingStateLoss()
+  }
+
+  /**
+   * 返回时优先移除栈顶fragment，无fragment时响应super
+   */
+  override fun onBackPressed() {
+    if (!popBackStackImmediate()) {
+      super.onBackPressed()
+    }
   }
 }

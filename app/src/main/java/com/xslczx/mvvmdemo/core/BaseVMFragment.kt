@@ -13,7 +13,7 @@ abstract class BaseVMFragment<VM : BaseViewModel> : BaseFragment() {
   override fun onAttach(context: Context) {
     super.onAttach(context)
     mViewModel =
-      ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+      ViewModelProvider.NewInstanceFactory()
           .create(providerVMClass())
           .also {
             it.let(lifecycle::addObserver)
@@ -29,7 +29,7 @@ abstract class BaseVMFragment<VM : BaseViewModel> : BaseFragment() {
   }
 
   open fun startObserve() {
-    mViewModel.mException.observe(this, Observer { it?.let { onError(it) } })
+    mViewModel.mException.observe(viewLifecycleOwner, Observer { it?.let { onError(it) } })
   }
 
   open fun onError(e: Throwable) {}

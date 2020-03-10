@@ -26,6 +26,12 @@ abstract class BasePagedListAdapter<T : BaseBean>(@LayoutRes private val layoutI
     return MyViewHolder(itemView)
   }
 
+  fun getItemOrNull(position: Int): T? {
+    return if (position in 0 until itemCount) {
+      getItem(position)
+    } else null
+  }
+
   internal class MyDiffCallBack<B : BaseBean> : DiffUtil.ItemCallback<B>() {
     override fun areItemsTheSame(
       oldItem: B,

@@ -29,13 +29,13 @@ object ApiRetrofit : BaseRetrofitClient() {
         .cookieJar(cookieJar)
         .addInterceptor { chain ->
           var request = chain.request()
-          if (!NetWorkUtils.isNetworkAvailable(App.CONTEXT)) {
+          if (!NetWorkUtils.iConnected(App.CONTEXT)) {
             request = request.newBuilder()
                 .cacheControl(CacheControl.FORCE_CACHE)
                 .build()
           }
           val response = chain.proceed(request)
-          if (!NetWorkUtils.isNetworkAvailable(App.CONTEXT)) {
+          if (!NetWorkUtils.iConnected(App.CONTEXT)) {
             val maxAge = 60 * 60
             response.newBuilder()
                 .removeHeader("Pragma")

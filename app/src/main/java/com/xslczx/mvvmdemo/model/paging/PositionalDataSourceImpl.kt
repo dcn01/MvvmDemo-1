@@ -1,27 +1,30 @@
 package com.xslczx.mvvmdemo.model.paging
 
+import android.os.Bundle
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import androidx.paging.DataSource
 import androidx.paging.PositionalDataSource
+import com.xslczx.mvvmdemo.core.BaseViewModel
 import com.xslczx.mvvmdemo.model.bean.WpBean
 import com.xslczx.mvvmdemo.model.repository.WpRepository
-import com.xslczx.mvvmdemo.ui.main.MainViewModel
 
 class PositionalDataSourceImpl(
-  private val viewModel: MainViewModel,
-  private val wpRepository: WpRepository
+  private val arg: Bundle,
+  private val viewModel: BaseViewModel
 ) :
     PositionalDataSource<WpBean>() {
+
+  private val wpRepository = WpRepository()
 
   override fun loadRange(
     params: LoadRangeParams,
     callback: LoadRangeCallback<WpBean>
   ) {
     viewModel.launch {
-      viewModel.loadMore.value = true
-      val result = wpRepository.loadVerticalWp(params.startPosition, params.loadSize)
+      val result = wpRepository.loadVerticalWp(arg, params.startPosition, params.loadSize)
       Log.i("logger", "loadRange===>${params.startPosition}/${params.loadSize}")
       callback.onResult(result.res.vertical)
-      viewModel.loadMore.value = false
     }
   }
 
@@ -30,11 +33,30 @@ class PositionalDataSourceImpl(
     callback: LoadInitialCallback<WpBean>
   ) {
     viewModel.launch {
-      viewModel.refresh.value = true
-      val result = wpRepository.loadVerticalWp(0, params.pageSize)
+      val result = wpRepository.loadVerticalWp(arg, 0, params.pageSize)
       Log.i("logger", "loadInitial===>0/${params.pageSize}")
       callback.onResult(result.res.vertical, 0)
-      viewModel.refresh.value = false
     }
   }
 }
+
+class SimpleFactory(
+  private val arg: Bundle,
+  private val viewModel: BaseViewModel
+) : DataSource.Factory<Int, WpBean>() {
+
+  private val mSourceLiveData = MutableLiveData<PositionalDataSourceImpl>()
+
+  override fun create(): DataSource<Int, WpBean> {
+
+    val dataSource = PositionalDataSourceImpl(arg, viewModel)
+    mSourceLiveData.postValue(dataSource)
+    return dataSource
+  }
+
+  fun getSourceLiveData(): MutableLiveData<PositionalDataSourceImpl> {
+    return mSourceLiveData
+  }
+
+}
+
